@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+ 
+<main class="container py-4">
+  <div class="row" data-masonry='{"percentPosition": true }'>
+
+
+{% for affect in object_list %}
+    <div class="col-sm-6 col-lg-4 mb-4">
+      <div class="card">
+        <div class="card-body p-4">
+          <h5 class="card-title">
+            <a href="{% url "affects:detail" affect.pk%}" class="text-decoration-none">
+            {{affect.affect_kr}} <small class="fs-6">{{affect.affect_en}}</small>
+            </a>
+          </h5>
+          <p class="card-text">
+            {{affect.description}}
+          </p>
+          
+          <p class="card-text">
+            <small class="text-muted">
+            {{affect.des_source}}
+            </small>
+          </p>
+          
+        </div>
+      </div>
+    </div>
+{% endfor %}
+
+
+  </div>
+</main>
+
+
+
+
+{% endblock content %}

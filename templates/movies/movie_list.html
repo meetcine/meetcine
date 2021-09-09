@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main>
+    <div class="album mt-2 py-3">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for movie in object_list %}
+                <div class="col">
+                    <div class="card h-100">
+                        <iframe width="100%" height="315" src="{{movie.video}}"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                        <div class="card-body">
+                            <h5 class="card-title">{{movie.title}}</h5>
+                            <div class="position-relative">
+                                <div class="position-absolute bottom-0 end-0">
+                                    <a href="{{movie.info}}"
+                                        class="link-dark text-decoration-none text-muted">
+                                        <small>영화정보</small>
+                                    </a>
+                                </div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">{{movie.original_title}}</h6>
+                            <p class="card-text py-3"><cite>"{{movie.script}}"</cite></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                        
+                                    {% if movie.netflix_link == Null %}
+                                    <button type="button"
+                                            class="btn btn-sm btn-secondary disabled">Netflix</button>
+                                    {% else %}
+                                    <a href="{{movie.netflix_link}}" target='_blank'>
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark">Netflix</button>
+                                    </a>
+                                    {% endif %}&nbsp;
+
+                                    {% if movie.wavve_link == Null %}
+                                    <button type="button"
+                                        class="btn btn-sm btn-secondary disabled">Wavve</button>
+                                    {% else %}
+                                    <a href="{{movie.wavve_link}}" target='_blank'>
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark">Wavve</button>
+                                    </a>
+                                    {% endif %}&nbsp;
+
+                                    {% if movie.tving_link == Null %}
+                                    <button type="button"
+                                        class="btn btn-sm btn-secondary disabled">Tving</button>
+                                    {% else %}
+                                    <a href="{{movie.tving_link}}" target='_blank'>
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark">Tving</button>
+                                    </a>
+                                    {% endif %}&nbsp;
+
+                                    {% if movie.watcha_link == Null %}
+                                    <button type="button"
+                                        class="btn btn-sm btn-secondary disabled">Watcha</button>
+                                    {% else %}
+                                    <a href="{{movie.watcha_link}}" target='_blank'>
+                                        <button type="button"
+                                            class="btn btn-sm btn-dark">Watcha</button>
+                                    </a>
+                                    {% endif %}&nbsp;
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="position-absolute bottom-9 end-0">
+                                <a class="link-dark text-decoration-none"
+                                    href="{{movie.twitter}}">
+                                    <svg class="bi" width="20" height="20">
+                                        <use xlink:href="#twitter" />
+                                    </svg>
+                                </a>&nbsp;&nbsp;
+                            </div>
+                            {% for affect in movie.affect.all %}
+                            <a class="text-decoration-none" href="{% url "affects:detail" affect.pk%}">
+                            <span class="badge rounded-pill bg-dark">#{{affect.affect_kr}}</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+    
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.previous_page_number}}" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            {% endif %}
+
+            Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+
+
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+</main>
+
+
+{% for page in page_range %}
+<a href="?page={{page}}">{{page}}</a>
+{% endfor %}
+
+{% endblock content %}
+
+
+
+
